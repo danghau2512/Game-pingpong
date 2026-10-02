@@ -33,3 +33,15 @@ function createBricks() {
     }
 }
 createBricks();
+gameBoard.addEventListener("mousemove", function(event) {
+    const boardRect = gameBoard.getBoundingClientRect();
+    let mouseX = event.clientX - boardRect.left;
+    paddleX = mouseX - paddle.offsetWidth / 2;
+    if (paddleX < 0) {
+        paddleX = 0;
+    }
+    if (paddleX > gameBoard.clientWidth - paddle.offsetWidth) {
+        paddleX = gameBoard.clientWidth - paddle.offsetWidth;
+    }
+    paddle.style.left = paddleX + "px";
+});
