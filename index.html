@@ -1,23 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brick Breaker</title>
+
+    <title>Ping Pong</title>
 
     <link rel="stylesheet" href="css/style.css">
-
 </head>
+
 <body>
 
 <div class="game-container">
 
-    <h1>PING PONG</h1>
+    <div class="game-header">
+        <h1>PING PONG</h1>
+    </div>
 
     <div class="game-info">
-        <p>Score: 0</p>
-        <p>Level: 1</p>
-        <p>Lives: 3</p>
+
+        <div class="info-item">
+            <span>Score</span>
+            <strong id="score">0</strong>
+        </div>
+
+        <div class="info-item">
+            <span>Level</span>
+            <strong id="level">1</strong>
+        </div>
+
+        <div class="info-item">
+            <span>Lives</span>
+            <strong id="lives">♥ ♥ ♥</strong>
+        </div>
+
+    </div>
+
+    <div class="level-select">
+        <span>Level:</span>
+
+        <button class="level-btn active">1</button>
+        <button class="level-btn">2</button>
+        <button class="level-btn">3</button>
+        <button class="level-btn">4</button>
+        <button class="level-btn">5</button>
+        <button class="level-btn">6</button>
     </div>
 
     <div class="game-board">
@@ -29,7 +57,22 @@
             <div class="brick"></div>
             <div class="brick"></div>
             <div class="brick"></div>
+            <div class="brick"></div>
+            <div class="brick"></div>
+            <div class="brick"></div>
 
+            <div class="brick"></div>
+            <div class="brick"></div>
+            <div class="brick"></div>
+            <div class="brick"></div>
+            <div class="brick"></div>
+            <div class="brick"></div>
+            <div class="brick"></div>
+            <div class="brick"></div>
+
+            <div class="brick"></div>
+            <div class="brick"></div>
+            <div class="brick"></div>
             <div class="brick"></div>
             <div class="brick"></div>
             <div class="brick"></div>
@@ -44,9 +87,22 @@
 
     </div>
 
+    <div class="game-control">
+        <p>
+            <span>← →</span>
+            Di chuyển
+        </p>
+
+        <p>
+            <span>SPACE</span>
+            Bắt đầu
+        </p>
+    </div>
+
 </div>
 
 <script src="js/game.js"></script>
 
 </body>
+
 </html>
