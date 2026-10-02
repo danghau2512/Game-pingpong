@@ -33,10 +33,33 @@ function createBricks() {
     }
 }
 createBricks();
+// Sự kiện chuột cho thanh trượt
 gameBoard.addEventListener("mousemove", function(event) {
     const boardRect = gameBoard.getBoundingClientRect();
     let mouseX = event.clientX - boardRect.left;
     paddleX = mouseX - paddle.offsetWidth / 2;
+    if (paddleX < 0) {
+        paddleX = 0;
+    }
+    if (paddleX > gameBoard.clientWidth - paddle.offsetWidth) {
+        paddleX = gameBoard.clientWidth - paddle.offsetWidth;
+    }
+    paddle.style.left = paddleX + "px";
+});
+
+const paddleSpeed = 20;
+
+// Sự kiện bàn phím cho thanh trượt
+document.addEventListener("keydown", function(event) {
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        event.preventDefault();
+    }
+    if (event.key === "ArrowLeft") {
+        paddleX -= paddleSpeed;
+    }
+    if (event.key === "ArrowRight") {
+        paddleX += paddleSpeed;
+    }
     if (paddleX < 0) {
         paddleX = 0;
     }
