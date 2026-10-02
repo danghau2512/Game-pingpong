@@ -6,7 +6,7 @@ body {
     margin: 0;
     padding: 20px;
     font-family: Arial, sans-serif;
-    background-color: #eeeeee;
+    background-color: #dfe9f3;
 }
 
 .game-container {
@@ -32,8 +32,8 @@ body {
     justify-content: space-between;
     padding: 10px 20px;
     margin-bottom: 10px;
-    background-color: white;
-    border: 1px solid #ccc;
+    background-color: #f4f8fc;
+    border: 1px solid #b8c7d6;
 }
 
 .info-item {
@@ -51,7 +51,7 @@ body {
 }
 
 #lives {
-    color: red;
+    color: #d62828;
 }
 
 .level-select {
@@ -65,17 +65,17 @@ body {
 .level-btn {
     width: 35px;
     height: 30px;
-    border: 1px solid #999;
-    background-color: white;
+    border: 1px solid #9aa9b8;
+    background-color: #f4f8fc;
     cursor: pointer;
 }
 
 .level-btn:hover {
-    background-color: #dddddd;
+    background-color: #d9e7f2;
 }
 
 .level-btn.active {
-    background-color: #3498db;
+    background-color: #4a90c2;
     color: white;
 }
 
@@ -84,8 +84,8 @@ body {
     height: 500px;
     position: relative;
     overflow: hidden;
-    border: 3px solid black;
-    background-color: white;
+    border: 3px solid #4f6272;
+    background-color: #eef4f8;
 }
 
 .brick-container {
@@ -97,8 +97,8 @@ body {
 
 .brick {
     height: 28px;
-    background-color: orange;
-    border: 1px solid black;
+    background-color: #e59b2f;
+    border: 1px solid #8a5a14;
 }
 
 .ball {
@@ -107,7 +107,7 @@ body {
     position: absolute;
     left: 390px;
     bottom: 70px;
-    background-color: red;
+    background-color: #e53935;
     border-radius: 50%;
 }
 
@@ -117,7 +117,7 @@ body {
     position: absolute;
     left: 340px;
     bottom: 30px;
-    background-color: blue;
+    background-color: #2f5fd0;
 }
 
 .game-control {
