@@ -106,9 +106,9 @@ body {
     height: 20px;
     position: absolute;
     left: 390px;
-    bottom: 70px;
     background-color: #e53935;
     border-radius: 50%;
+    top: 410px;
 }
 
 .paddle {

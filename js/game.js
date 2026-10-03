@@ -68,3 +68,22 @@ document.addEventListener("keydown", function(event) {
     }
     paddle.style.left = paddleX + "px";
 });
+
+function moveBall() {
+    if (!gameStarted) {
+        return;
+    }
+    ballX += ballSpeedX;
+    ballY += ballSpeedY;
+    ball.style.left = ballX + "px";
+    ball.style.top = ballY + "px";
+
+    requestAnimationFrame(moveBall);
+}
+document.addEventListener("keydown", function(event) {
+    if (event.code === "Space" && !gameStarted) {
+        event.preventDefault();
+        gameStarted = true;
+        moveBall();
+    }
+});
