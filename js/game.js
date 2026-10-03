@@ -76,6 +76,7 @@ function moveBall() {
     ballX += ballSpeedX;
     ballY += ballSpeedY;
     checkWallCollision();
+    checkPaddleCollision();
     ball.style.left = ballX + "px";
     ball.style.top = ballY + "px";
 
@@ -101,6 +102,16 @@ function checkWallCollision() {
     }
     if (ballY <= 0) {
         ballY = 0;
+        ballSpeedY *= -1;
+    }
+}
+function checkPaddleCollision() {
+    const ballRight = ballX + ball.offsetWidth;
+    const ballBottom = ballY + ball.offsetHeight;
+    const paddleRight = paddleX + paddle.offsetWidth;
+    const paddleTop = paddle.offsetTop;
+    if (ballSpeedY > 0 && ballBottom >= paddleTop && ballY <= paddleTop + paddle.offsetHeight && ballRight >= paddleX && ballX <= paddleRight) {
+        ballY = paddleTop - ball.offsetHeight;
         ballSpeedY *= -1;
     }
 }
