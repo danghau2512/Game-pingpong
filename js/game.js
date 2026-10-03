@@ -75,6 +75,7 @@ function moveBall() {
     }
     ballX += ballSpeedX;
     ballY += ballSpeedY;
+    checkWallCollision();
     ball.style.left = ballX + "px";
     ball.style.top = ballY + "px";
 
@@ -87,3 +88,19 @@ document.addEventListener("keydown", function(event) {
         moveBall();
     }
 });
+
+
+function checkWallCollision() {
+    if (ballX <= 0) {
+        ballX = 0;
+        ballSpeedX *= -1;
+    }
+    if (ballX + ball.offsetWidth >= gameBoard.clientWidth) {
+        ballX = gameBoard.clientWidth - ball.offsetWidth;
+        ballSpeedX *= -1;
+    }
+    if (ballY <= 0) {
+        ballY = 0;
+        ballSpeedY *= -1;
+    }
+}
