@@ -112,6 +112,22 @@ function checkPaddleCollision() {
     const paddleTop = paddle.offsetTop;
     if (ballSpeedY > 0 && ballBottom >= paddleTop && ballY <= paddleTop + paddle.offsetHeight && ballRight >= paddleX && ballX <= paddleRight) {
         ballY = paddleTop - ball.offsetHeight;
-        ballSpeedY *= -1;
+        ballSpeedY = -Math.abs(ballSpeedY);
+        const ballCenter = ballX + ball.offsetWidth / 2;
+        const paddleWidth = paddle.offsetWidth;
+        if (ballCenter < paddleX + paddleWidth / 3) {
+            ballSpeedX = -Math.abs(ballSpeedX);
+        }
+        else if (ballCenter > paddleX + paddleWidth * 2 / 3) {
+            ballSpeedX = Math.abs(ballSpeedX);
+        }
+        else {
+            if (ballSpeedX > 0) {
+                ballSpeedX = 2;
+            }
+            else {
+                ballSpeedX = -2;
+            }
+        }
     }
 }
