@@ -146,3 +146,20 @@ body {
 .game-control i {
     margin-right: 5px;
 }
+.win-message {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    background-color: #dfe9f3;
+    border: 2px solid #4f6272;
+    padding: 20px;
+    z-index: 2;
+}
+
+.win-message h2 {
+    color: #2e7d32;
+    margin-top: 0;
+}

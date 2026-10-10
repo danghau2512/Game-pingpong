@@ -5,9 +5,10 @@ const paddle = document.querySelector(".paddle");
 const scoreElement = document.getElementById("score");
 const livesElement = document.getElementById("lives");
 const brickContainer = document.getElementById("brickContainer");
+const winMessage = document.getElementById("winMessage");
 let score = 0;
 let lives = 3;
-
+let gameWon = false;
 let ballX = 390;
 let ballY = 410;
 
@@ -79,6 +80,7 @@ function moveBall() {
     checkPaddleCollision();
     checkBrickCollision();
     checkBallLost()
+    checkWin();
     if (!gameStarted) {
         return;
     }
@@ -90,7 +92,7 @@ function moveBall() {
 document.addEventListener("keydown", function(event) {
     if (event.code === "Space") {
         event.preventDefault();
-        if (!gameStarted && lives > 0) {
+        if (!gameStarted && lives > 0 && !gameWon) {
             gameStarted = true;
             moveBall();
         }
@@ -189,5 +191,13 @@ function updateLives() {
         livesElement.innerHTML = '<i class="fa-solid fa-heart"></i> '.repeat(lives);
     } else {
         livesElement.textContent = "0";
+    }
+}
+function checkWin() {
+    if (bricks.length === 0 && !gameWon) {
+        gameWon = true;
+        gameStarted = false;
+
+        winMessage.style.display = "block";
     }
 }
