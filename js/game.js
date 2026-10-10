@@ -78,16 +78,22 @@ function moveBall() {
     checkWallCollision();
     checkPaddleCollision();
     checkBrickCollision();
+    checkBallLost()
+    if (!gameStarted) {
+        return;
+    }
     ball.style.left = ballX + "px";
     ball.style.top = ballY + "px";
 
     requestAnimationFrame(moveBall);
 }
 document.addEventListener("keydown", function(event) {
-    if (event.code === "Space" && !gameStarted) {
+    if (event.code === "Space") {
         event.preventDefault();
-        gameStarted = true;
-        moveBall();
+        if (!gameStarted && lives > 0) {
+            gameStarted = true;
+            moveBall();
+        }
     }
 });
 
@@ -153,5 +159,35 @@ function checkBrickCollision() {
             scoreElement.textContent = score;
             break;
         }
+    }
+}
+// Hàm trả bóng về vị trí ban đầu
+function resetBall() {
+    ballX = 390;
+    ballY = 410;
+    ballSpeedX = 4;
+    ballSpeedY = -4;
+    paddleX = 340;
+    ball.style.left = ballX + "px";
+    ball.style.top = ballY + "px";
+    paddle.style.left = paddleX + "px";
+}
+function checkBallLost() {
+    if (ballY + ball.offsetHeight >= gameBoard.clientHeight) {
+        lives--;
+        updateLives();
+        if (lives === 0) {
+            livesElement.textContent = "0";
+        }
+        gameStarted = false;
+        resetBall();
+    }
+}
+// Hàm cập nhật mạng
+function updateLives() {
+    if (lives > 0) {
+        livesElement.innerHTML = '<i class="fa-solid fa-heart"></i> '.repeat(lives);
+    } else {
+        livesElement.textContent = "0";
     }
 }

@@ -135,3 +135,14 @@ body {
 .game-control span {
     font-weight: bold;
 }
+#lives {
+    color: #e53935;
+}
+
+#lives i {
+    margin-left: 3px;
+}
+
+.game-control i {
+    margin-right: 5px;
+}
