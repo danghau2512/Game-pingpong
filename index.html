@@ -45,12 +45,12 @@
     <div class="level-select">
         <span>Level:</span>
 
-        <button class="level-btn active">1</button>
-        <button class="level-btn">2</button>
-        <button class="level-btn">3</button>
-        <button class="level-btn">4</button>
-        <button class="level-btn">5</button>
-        <button class="level-btn">6</button>
+        <button class="level-btn active" onclick="loadLevel(1)">1</button>
+        <button class="level-btn" onclick="loadLevel(2)">2</button>
+        <button class="level-btn" onclick="loadLevel(3)">3</button>
+        <button class="level-btn" onclick="loadLevel(4)">4</button>
+        <button class="level-btn" onclick="loadLevel(5)">5</button>
+        <button class="level-btn" onclick="loadLevel(6)">6</button>
     </div>
 
     <div class="game-board">
@@ -70,6 +70,7 @@
             <p>Bạn đã hết mạng!</p>
             <p>Score: <span id="finalScore">0</span></p>
         </div>
+        <div class="level-notice" id="levelNotice"></div>
     </div>
 
     <div class="game-control">

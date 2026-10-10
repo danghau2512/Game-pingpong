@@ -180,3 +180,14 @@ body {
     color: #d62828;
     margin-top: 0;
 }
+.level-notice {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #dfe9f3;
+    border: 1px solid #4f6272;
+    text-align: center;
+}

@@ -24,7 +24,12 @@ const brickRows = 3;
 const brickColumns = 8;
 
 let bricks = [];
-
+let currentLevel = 1;
+let levelReady = true;
+let animationId = null;
+const levelNotice = document.getElementById("levelNotice");
+const levelElement = document.getElementById("level");
+const levelButtons = document.querySelectorAll(".level-btn");
 function createBricks() {
     for (let row = 0; row < brickRows; row++) {
         for (let col = 0; col < brickColumns; col++) {
@@ -89,12 +94,12 @@ function moveBall() {
     ball.style.left = ballX + "px";
     ball.style.top = ballY + "px";
 
-    requestAnimationFrame(moveBall);
+    animationId = requestAnimationFrame(moveBall);
 }
 document.addEventListener("keydown", function(event) {
     if (event.code === "Space") {
         event.preventDefault();
-        if (!gameStarted && lives > 0 && !gameWon) {
+        if (!gameStarted && lives > 0 && !gameWon && levelReady) {
             gameStarted = true;
             moveBall();
         }
@@ -216,16 +221,40 @@ function checkWin() {
     }
 }
 function restartGame() {
+    loadLevel(currentLevel);
+}
+function loadLevel(level) {
+    gameStarted = false;
+    cancelAnimationFrame(animationId);
+    currentLevel = level;
+    levelElement.textContent = currentLevel;
+    for (let i = 0; i < levelButtons.length; i++) {
+        if (i + 1 === level) {
+            levelButtons[i].classList.add("active");
+        } else {
+            levelButtons[i].classList.remove("active");
+        }
+    }
     score = 0;
     lives = 3;
-    gameStarted = false;
     gameWon = false;
+
     scoreElement.textContent = score;
     updateLives();
-    brickContainer.innerHTML = "";
-    bricks = [];
-    createBricks();
-    resetBall();
     winMessage.style.display = "none";
     gameOverMessage.style.display = "none";
+    brickContainer.innerHTML = "";
+    bricks = [];
+
+    resetBall();
+
+    if (level === 1) {
+        levelReady = true;
+        levelNotice.style.display = "none";
+        createBricks();
+    } else {
+        levelReady = false;
+        levelNotice.textContent = "Level " + level + " đang được phát triển";
+        levelNotice.style.display = "block";
+    }
 }
