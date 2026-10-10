@@ -149,6 +149,8 @@ function checkBrickCollision() {
             // xóa gạch thứ i ra khỏi mảng
             bricks.splice(i, 1);
             // cộng điểm
+            score += 10;
+            scoreElement.textContent = score;
             break;
         }
     }
