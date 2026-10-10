@@ -6,6 +6,8 @@ const scoreElement = document.getElementById("score");
 const livesElement = document.getElementById("lives");
 const brickContainer = document.getElementById("brickContainer");
 const winMessage = document.getElementById("winMessage");
+const gameOverMessage = document.getElementById("gameOverMessage");
+const finalScore = document.getElementById("finalScore");
 let score = 0;
 let lives = 3;
 let gameWon = false;
@@ -182,7 +184,13 @@ function checkBallLost() {
             livesElement.textContent = "0";
         }
         gameStarted = false;
-        resetBall();
+        if (lives === 0) {
+            finalScore.textContent = score;
+            gameOverMessage.style.display = "block";
+        }else{
+            resetBall();
+
+        }
     }
 }
 // Hàm cập nhật mạng
