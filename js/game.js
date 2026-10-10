@@ -77,6 +77,7 @@ function moveBall() {
     ballY += ballSpeedY;
     checkWallCollision();
     checkPaddleCollision();
+    checkBrickCollision();
     ball.style.left = ballX + "px";
     ball.style.top = ballY + "px";
 
@@ -128,6 +129,27 @@ function checkPaddleCollision() {
             else {
                 ballSpeedX = -2;
             }
+        }
+    }
+}
+function checkBrickCollision() {
+    const ballRight = ballX + ball.offsetWidth;
+    const ballBottom = ballY + ball.offsetHeight;
+    for (let i = 0; i < bricks.length; i++) {
+        const brick = bricks[i];
+        const brickLeft = brick.offsetLeft;
+        const brickTop = brick.offsetTop;
+        const brickRight = brickLeft + brick.offsetWidth;
+        const brickBottom = brickTop + brick.offsetHeight;
+        if (ballRight >= brickLeft && ballX <= brickRight && ballBottom >= brickTop && ballY <= brickBottom) {
+            // bóng bật lại sau khi va chạm, ví dụ đang bóng đang đi lên -4 thì sau khi chạm sẽ thành 4 và đi ngược lại
+            ballSpeedY *= -1;
+            // Ẩn viên gạch thay vì xóa vì nếu xóa thì các ô gạch ở phía sau đẩy lên làm thay đổi vị trí
+            brick.style.visibility = "hidden";
+            // xóa gạch thứ i ra khỏi mảng
+            bricks.splice(i, 1);
+            // cộng điểm
+            break;
         }
     }
 }
