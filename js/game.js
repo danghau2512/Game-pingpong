@@ -99,6 +99,12 @@ document.addEventListener("keydown", function(event) {
             moveBall();
         }
     }
+    if (event.code === "KeyR") {
+        // nếu thắng hoăc thua thì có thể chơi lại
+        if (gameWon || lives === 0) {
+            restartGame();
+        }
+    }
 });
 
 
@@ -208,4 +214,18 @@ function checkWin() {
 
         winMessage.style.display = "block";
     }
+}
+function restartGame() {
+    score = 0;
+    lives = 3;
+    gameStarted = false;
+    gameWon = false;
+    scoreElement.textContent = score;
+    updateLives();
+    brickContainer.innerHTML = "";
+    bricks = [];
+    createBricks();
+    resetBall();
+    winMessage.style.display = "none";
+    gameOverMessage.style.display = "none";
 }
