@@ -41,7 +41,6 @@ function createBricks() {
     }
 }
 createBricks();
-// Sự kiện chuột cho thanh trượt
 gameBoard.addEventListener("mousemove", function(event) {
     const boardRect = gameBoard.getBoundingClientRect();
     let mouseX = event.clientX - boardRect.left;
@@ -57,7 +56,6 @@ gameBoard.addEventListener("mousemove", function(event) {
 
 const paddleSpeed = 20;
 
-// Sự kiện bàn phím cho thanh trượt
 document.addEventListener("keydown", function(event) {
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
         event.preventDefault();
@@ -105,7 +103,6 @@ document.addEventListener("keydown", function(event) {
         }
     }
     if (event.code === "KeyR") {
-        // nếu thắng hoăc thua thì có thể chơi lại
         if (gameWon || lives === 0) {
             restartGame();
         }
@@ -163,20 +160,15 @@ function checkBrickCollision() {
         const brickRight = brickLeft + brick.offsetWidth;
         const brickBottom = brickTop + brick.offsetHeight;
         if (ballRight >= brickLeft && ballX <= brickRight && ballBottom >= brickTop && ballY <= brickBottom) {
-            // bóng bật lại sau khi va chạm, ví dụ đang bóng đang đi lên -4 thì sau khi chạm sẽ thành 4 và đi ngược lại
             ballSpeedY *= -1;
-            // Ẩn viên gạch thay vì xóa vì nếu xóa thì các ô gạch ở phía sau đẩy lên làm thay đổi vị trí
             brick.style.visibility = "hidden";
-            // xóa gạch thứ i ra khỏi mảng
             bricks.splice(i, 1);
-            // cộng điểm
             score += 10;
             scoreElement.textContent = score;
             break;
         }
     }
 }
-// Hàm trả bóng về vị trí ban đầu
 function resetBall() {
     ballX = 390;
     ballY = 410;
@@ -204,7 +196,6 @@ function checkBallLost() {
         }
     }
 }
-// Hàm cập nhật mạng
 function updateLives() {
     if (lives > 0) {
         livesElement.innerHTML = '<i class="fa-solid fa-heart"></i> '.repeat(lives);
@@ -252,9 +243,39 @@ function loadLevel(level) {
         levelReady = true;
         levelNotice.style.display = "none";
         createBricks();
+    } else if (level === 2) {
+        levelReady = false;
+        createLevel2Bricks();
+        levelNotice.textContent = "Level 2 đang xây dựng";
+        levelNotice.style.display = "block";
     } else {
         levelReady = false;
         levelNotice.textContent = "Level " + level + " đang được phát triển";
         levelNotice.style.display = "block";
+    }
+}
+// =====LEVEL 2==========
+function createLevel2Bricks() {
+    for (let row = 0; row < brickRows; row++) {
+        for (let col = 0; col < brickColumns; col++) {
+            const brick = document.createElement("div");
+            brick.classList.add("brick");
+
+            if (row === 2 && col === 2) {
+                brick.classList.add("key-brick");
+                brick.dataset.type = "key";
+                brick.innerHTML = '<i class="fa-solid fa-key"></i>';
+            } else if (row === 2 && col === 5) {
+                brick.classList.add("lock-brick");
+                brick.dataset.type = "lock";
+                brick.innerHTML = '<i class="fa-solid fa-lock"></i>';
+            } else {
+                brick.classList.add("normal-brick");
+                brick.dataset.type = "normal";
+            }
+
+            brickContainer.appendChild(brick);
+            bricks.push(brick);
+        }
     }
 }
