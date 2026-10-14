@@ -210,3 +210,7 @@ body {
     justify-content: center;
     font-size: 16px;
 }
+.brick.lock-brick.unlocked,
+.brick.normal-brick.unlocked {
+    background-color: #e59b2f;
+}

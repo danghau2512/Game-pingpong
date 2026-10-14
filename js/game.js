@@ -161,8 +161,11 @@ function checkBrickCollision() {
         const brickRight = brickLeft + brick.offsetWidth;
         const brickBottom = brickTop + brick.offsetHeight;
         if (ballRight >= brickLeft && ballX <= brickRight && ballBottom >= brickTop && ballY <= brickBottom) {
+            const overlapLeft = ballRight - brickLeft;
+            const overlapRight = brickRight - ballX;
+            const overlapTop = ballBottom - brickTop;
+            const overlapBottom = brickBottom - ballY;
             const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
-
             if (minOverlap === overlapLeft) {
                 ballX = brickLeft - ball.offsetWidth;
                 ballSpeedX = -Math.abs(ballSpeedX);
@@ -175,7 +178,8 @@ function checkBrickCollision() {
             } else {
                 ballY = brickBottom;
                 ballSpeedY = Math.abs(ballSpeedY);
-            }            if (currentLevel === 2) {
+            }
+            if (currentLevel === 2) {
                 const brickType = brick.dataset.type;
                 if (brickType === "normal" && unlockStage < 2) {
                     break;
@@ -185,8 +189,18 @@ function checkBrickCollision() {
                 }
                 if (brickType === "key") {
                     unlockStage = 1;
+                    const lockBrick = document.querySelector(".lock-brick");
+
+                    if (lockBrick) {
+                        lockBrick.classList.add("unlocked");
+                        lockBrick.innerHTML = '<i class="fa-solid fa-lock-open"></i>';
+                    }
                 } else if (brickType === "lock") {
                     unlockStage = 2;
+                    const normalBricks = document.querySelectorAll(".normal-brick");
+                    normalBricks.forEach(function(brick) {
+                        brick.classList.add("unlocked");
+                    });
                 }
             }
             brick.style.visibility = "hidden";
