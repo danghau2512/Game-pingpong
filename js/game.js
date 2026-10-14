@@ -400,15 +400,22 @@ function findEmptyCells(row, col) {
     }
     return emptyCells;
 }
-function checkMotherCells() {
-    for (let i = 0; i < bricks.length; i++) {
+function growBricks() {
+    const totalBricks = bricks.length;
+    for (let i = 0; i < totalBricks; i++) {
         const brick = bricks[i];
         if (brick.dataset.type === "mother") {
             const row = Number(brick.dataset.row);
             const col = Number(brick.dataset.col);
             const emptyCells = findEmptyCells(row, col);
-            console.log("Gạch mẹ:", row, col);
-            console.log("Số ô trống:", emptyCells.length);
+            if (emptyCells.length > 0) {
+                const randomIndex = Math.floor(Math.random() * emptyCells.length);
+                const newBrick = emptyCells[randomIndex];
+                newBrick.dataset.type = "child";
+                newBrick.classList.add("child-brick");
+                newBrick.style.visibility = "visible";
+                bricks.push(newBrick);
+            }
         }
     }
 }
