@@ -161,8 +161,21 @@ function checkBrickCollision() {
         const brickRight = brickLeft + brick.offsetWidth;
         const brickBottom = brickTop + brick.offsetHeight;
         if (ballRight >= brickLeft && ballX <= brickRight && ballBottom >= brickTop && ballY <= brickBottom) {
-            ballSpeedY *= -1;
-            if (currentLevel === 2) {
+            const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
+
+            if (minOverlap === overlapLeft) {
+                ballX = brickLeft - ball.offsetWidth;
+                ballSpeedX = -Math.abs(ballSpeedX);
+            } else if (minOverlap === overlapRight) {
+                ballX = brickRight;
+                ballSpeedX = Math.abs(ballSpeedX);
+            } else if (minOverlap === overlapTop) {
+                ballY = brickTop - ball.offsetHeight;
+                ballSpeedY = -Math.abs(ballSpeedY);
+            } else {
+                ballY = brickBottom;
+                ballSpeedY = Math.abs(ballSpeedY);
+            }            if (currentLevel === 2) {
                 const brickType = brick.dataset.type;
                 if (brickType === "normal" && unlockStage < 2) {
                     break;
