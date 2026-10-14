@@ -15,8 +15,8 @@ let gameWon = false;
 let ballX = 390;
 let ballY = 410;
 
-let ballSpeedX = 4;
-let ballSpeedY = -4;
+let ballSpeedX = 240;
+let ballSpeedY = -240;
 
 let paddleX = 340;
 
@@ -30,6 +30,7 @@ let currentLevel = 1;
 let unlockStage = 0;
 let levelReady = true;
 let animationId = null;
+let lastFrameTime = 0;
 const levelNotice = document.getElementById("levelNotice");
 const levelElement = document.getElementById("level");
 const levelButtons = document.querySelectorAll(".level-btn");
@@ -78,12 +79,14 @@ document.addEventListener("keydown", function(event) {
     paddle.style.left = paddleX + "px";
 });
 
-function moveBall() {
+function moveBall(time) {
     if (!gameStarted) {
         return;
     }
-    ballX += ballSpeedX;
-    ballY += ballSpeedY;
+    const deltaTime = Math.min((time - lastFrameTime) / 1000, 0.05);
+    lastFrameTime = time;
+    ballX += ballSpeedX * deltaTime;
+    ballY += ballSpeedY* deltaTime;
     checkWallCollision();
     checkPaddleCollision();
     checkBrickCollision();
@@ -105,7 +108,8 @@ document.addEventListener("keydown", function(event) {
         event.preventDefault();
         if (!gameStarted && lives > 0 && !gameWon && levelReady) {
             gameStarted = true;
-            moveBall();
+            lastFrameTime = performance.now();
+            animationId = requestAnimationFrame(moveBall);
         }
     }
     if (event.code === "KeyR") {
@@ -219,8 +223,8 @@ function checkBrickCollision() {
 function resetBall() {
     ballX = 390;
     ballY = 410;
-    ballSpeedX = 4;
-    ballSpeedY = -4;
+    ballSpeedX = 240;
+    ballSpeedY = -240;
     paddleX = 340;
     ball.style.left = ballX + "px";
     ball.style.top = ballY + "px";
