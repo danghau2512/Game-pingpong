@@ -214,3 +214,11 @@ body {
 .brick.normal-brick.unlocked {
     background-color: #e59b2f;
 }
+.brick.mother-brick {
+    background-color: green;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+}

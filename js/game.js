@@ -25,6 +25,7 @@ const brickRows = 3;
 const brickColumns = 8;
 
 let bricks = [];
+let brickCells = [];
 let currentLevel = 1;
 let unlockStage = 0;
 let levelReady = true;
@@ -283,6 +284,7 @@ function loadLevel(level) {
     gameOverMessage.style.display = "none";
     brickContainer.innerHTML = "";
     bricks = [];
+    brickCells = [];
 
     resetBall();
 
@@ -294,6 +296,11 @@ function loadLevel(level) {
         levelReady = true;
         levelNotice.style.display = "none";
         createLevel2Bricks();
+    } else if (level === 3) {
+        levelReady = false;
+        createLevel3Bricks();
+        levelNotice.textContent = "Level 3 đang xây dựng";
+        levelNotice.style.display = "block";
     } else {
         levelReady = false;
         levelNotice.textContent = "Level " + level + " đang được phát triển";
@@ -322,6 +329,42 @@ function createLevel2Bricks() {
 
             brickContainer.appendChild(brick);
             bricks.push(brick);
+        }
+    }
+}
+//=========Level 3=========
+function createLevel3Bricks() {
+    const map = [
+        "NNNNNNNN",
+        "NN.NNN.N",
+        "N.M.N.M."
+    ];
+
+    for (let row = 0; row < map.length; row++) {
+        for (let col = 0; col < map[row].length; col++) {
+            const brick = document.createElement("div");
+            brick.classList.add("brick");
+
+            brick.dataset.row = row;
+            brick.dataset.col = col;
+
+            if (map[row][col] === "M") {
+                brick.classList.add("mother-brick");
+                brick.dataset.type = "mother";
+                brick.innerHTML = '<i class="fa-solid fa-seedling"></i>';
+            } else if (map[row][col] === ".") {
+                brick.dataset.type = "empty";
+                brick.style.visibility = "hidden";
+            } else {
+                brick.dataset.type = "normal";
+            }
+
+            brickContainer.appendChild(brick);
+            brickCells.push(brick);
+
+            if (brick.dataset.type !== "empty") {
+                bricks.push(brick);
+            }
         }
     }
 }
