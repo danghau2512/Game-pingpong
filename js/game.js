@@ -8,6 +8,7 @@ const brickContainer = document.getElementById("brickContainer");
 const winMessage = document.getElementById("winMessage");
 const gameOverMessage = document.getElementById("gameOverMessage");
 const finalScore = document.getElementById("finalScore");
+const winTitle = document.getElementById("winTitle");
 let score = 0;
 let lives = 3;
 let gameWon = false;
@@ -85,8 +86,11 @@ function moveBall() {
     checkWallCollision();
     checkPaddleCollision();
     checkBrickCollision();
-    checkBallLost()
     checkWin();
+    if (!gameStarted) {
+        return;
+    }
+    checkBallLost()
     if (!gameStarted) {
         return;
     }
@@ -249,7 +253,7 @@ function checkWin() {
     if (bricks.length === 0 && !gameWon) {
         gameWon = true;
         gameStarted = false;
-
+        winTitle.textContent = "HOÀN THÀNH LEVEL " + currentLevel + "!";
         winMessage.style.display = "block";
     }
 }
