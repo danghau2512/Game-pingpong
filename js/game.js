@@ -152,10 +152,10 @@ function checkPaddleCollision() {
         }
         else {
             if (ballSpeedX > 0) {
-                ballSpeedX = 2;
+                ballSpeedX = 120;
             }
             else {
-                ballSpeedX = -2;
+                ballSpeedX = -120;
             }
         }
     }
@@ -213,6 +213,11 @@ function checkBrickCollision() {
                 }
             }
             brick.style.visibility = "hidden";
+            if (currentLevel === 3) {
+                brick.dataset.type = "empty";
+                brick.classList.remove("mother-brick");
+                brick.innerHTML = "";
+            }
             bricks.splice(i, 1);
             score += 10;
             scoreElement.textContent = score;
@@ -369,6 +374,41 @@ function createLevel3Bricks() {
             if (brick.dataset.type !== "empty") {
                 bricks.push(brick);
             }
+        }
+    }
+}
+function findEmptyCells(row, col) {
+    const positions = [
+        [row - 1, col],
+        [row + 1, col],
+        [row, col - 1],
+        [row, col + 1]
+    ];
+    const emptyCells = [];
+    for (let i = 0; i < positions.length; i++) {
+        const r = positions[i][0];
+        const c = positions[i][1];
+        if (r < 0 || r >= brickRows || c < 0 || c >= brickColumns) {
+            continue;
+        }
+        const index = r * brickColumns + c;
+        const cell = brickCells[index];
+
+        if (cell.dataset.type === "empty") {
+            emptyCells.push(cell);
+        }
+    }
+    return emptyCells;
+}
+function checkMotherCells() {
+    for (let i = 0; i < bricks.length; i++) {
+        const brick = bricks[i];
+        if (brick.dataset.type === "mother") {
+            const row = Number(brick.dataset.row);
+            const col = Number(brick.dataset.col);
+            const emptyCells = findEmptyCells(row, col);
+            console.log("Gạch mẹ:", row, col);
+            console.log("Số ô trống:", emptyCells.length);
         }
     }
 }
