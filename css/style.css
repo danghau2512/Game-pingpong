@@ -225,3 +225,6 @@ body {
 .brick.child-brick {
     background-color: lightgreen;
 }
+.grow-info {
+    display: none;
+}

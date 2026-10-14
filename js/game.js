@@ -2,6 +2,9 @@ const gameBoard = document.querySelector(".game-board");
 const ball = document.querySelector(".ball");
 const paddle = document.querySelector(".paddle");
 
+let growTime = 0;
+let lastGrowTime = 0;
+const growInterval = 5000;
 const scoreElement = document.getElementById("score");
 const livesElement = document.getElementById("lives");
 const brickContainer = document.getElementById("brickContainer");
@@ -9,6 +12,8 @@ const winMessage = document.getElementById("winMessage");
 const gameOverMessage = document.getElementById("gameOverMessage");
 const finalScore = document.getElementById("finalScore");
 const winTitle = document.getElementById("winTitle");
+const growInfo =document.getElementById("growInfo");
+const growSeconds = document.getElementById("growSeconds");
 let score = 0;
 let lives = 3;
 let gameWon = false;
@@ -83,6 +88,9 @@ function moveBall(time) {
     if (!gameStarted) {
         return;
     }
+    if (currentLevel === 3) {
+        updateGrowTimer();
+    }
     const deltaTime = Math.min((time - lastFrameTime) / 1000, 0.05);
     lastFrameTime = time;
     ballX += ballSpeedX * deltaTime;
@@ -110,7 +118,11 @@ document.addEventListener("keydown", function(event) {
             gameStarted = true;
             lastFrameTime = performance.now();
             animationId = requestAnimationFrame(moveBall);
+            if (currentLevel === 3) {
+                lastGrowTime = performance.now();
+            }
         }
+
     }
     if (event.code === "KeyR") {
         if (gameWon || lives === 0) {
@@ -215,7 +227,7 @@ function checkBrickCollision() {
             brick.style.visibility = "hidden";
             if (currentLevel === 3) {
                 brick.dataset.type = "empty";
-                brick.classList.remove("mother-brick");
+                brick.classList.remove("mother-brick", "child-brick");
                 brick.innerHTML = "";
             }
             bricks.splice(i, 1);
@@ -286,7 +298,10 @@ function loadLevel(level) {
     lives = 3;
     gameWon = false;
     unlockStage = 0;
-
+    growTime = 0;
+    lastGrowTime = 0;
+    growSeconds.textContent = 5;
+    growInfo.style.display = "none";
     scoreElement.textContent = score;
     updateLives();
     winMessage.style.display = "none";
@@ -306,10 +321,11 @@ function loadLevel(level) {
         levelNotice.style.display = "none";
         createLevel2Bricks();
     } else if (level === 3) {
-        levelReady = false;
+        levelReady = true;
+        levelNotice.style.display = "none";
+        growInfo.style.display = "block";
         createLevel3Bricks();
-        levelNotice.textContent = "Level 3 đang xây dựng";
-        levelNotice.style.display = "block";
+
     } else {
         levelReady = false;
         levelNotice.textContent = "Level " + level + " đang được phát triển";
@@ -418,4 +434,14 @@ function growBricks() {
             }
         }
     }
+}
+function updateGrowTimer() {
+    const now = performance.now();
+    growTime += now - lastGrowTime;
+    lastGrowTime = now;
+    if (growTime >= growInterval) {
+        growTime = 0;
+        growBricks();
+    }
+    growSeconds.textContent = Math.ceil((growInterval - growTime) / 1000);
 }
