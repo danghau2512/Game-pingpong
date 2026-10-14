@@ -25,6 +25,7 @@ const brickColumns = 8;
 
 let bricks = [];
 let currentLevel = 1;
+let unlockStage = 0;
 let levelReady = true;
 let animationId = null;
 const levelNotice = document.getElementById("levelNotice");
@@ -161,6 +162,20 @@ function checkBrickCollision() {
         const brickBottom = brickTop + brick.offsetHeight;
         if (ballRight >= brickLeft && ballX <= brickRight && ballBottom >= brickTop && ballY <= brickBottom) {
             ballSpeedY *= -1;
+            if (currentLevel === 2) {
+                const brickType = brick.dataset.type;
+                if (brickType === "normal" && unlockStage < 2) {
+                    break;
+                }
+                if (brickType === "lock" && unlockStage === 0) {
+                    break;
+                }
+                if (brickType === "key") {
+                    unlockStage = 1;
+                } else if (brickType === "lock") {
+                    unlockStage = 2;
+                }
+            }
             brick.style.visibility = "hidden";
             bricks.splice(i, 1);
             score += 10;
@@ -229,6 +244,7 @@ function loadLevel(level) {
     score = 0;
     lives = 3;
     gameWon = false;
+    unlockStage = 0;
 
     scoreElement.textContent = score;
     updateLives();
@@ -244,10 +260,9 @@ function loadLevel(level) {
         levelNotice.style.display = "none";
         createBricks();
     } else if (level === 2) {
-        levelReady = false;
+        levelReady = true;
+        levelNotice.style.display = "none";
         createLevel2Bricks();
-        levelNotice.textContent = "Level 2 đang xây dựng";
-        levelNotice.style.display = "block";
     } else {
         levelReady = false;
         levelNotice.textContent = "Level " + level + " đang được phát triển";
