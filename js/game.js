@@ -325,12 +325,18 @@ function loadLevel(level) {
         levelNotice.style.display = "none";
         growInfo.style.display = "block";
         createLevel3Bricks();
+    } else if (level === 4) {
+        levelReady = false;
+        createLevel4Bricks();
+        levelNotice.textContent = "Level 4 đang xây dựng";
+        levelNotice.style.display = "block";
 
     } else {
         levelReady = false;
         levelNotice.textContent = "Level " + level + " đang được phát triển";
         levelNotice.style.display = "block";
     }
+
 }
 // =====LEVEL 2==========
 function createLevel2Bricks() {
@@ -444,4 +450,40 @@ function updateGrowTimer() {
         growBricks();
     }
     growSeconds.textContent = Math.ceil((growInterval - growTime) / 1000);
+}
+//============LV4============
+function createLevel4Bricks() {
+    const map = [
+        "NNNNNNNN",
+        "NNB.BNNN",
+        "NSSB.N.N"
+    ];
+    for (let row = 0; row < map.length; row++) {
+        for (let col = 0; col < map[row].length; col++) {
+            const brick = document.createElement("div");
+            brick.classList.add("brick");
+            brick.dataset.row = row;
+            brick.dataset.col = col;
+            if (map[row][col] === "B") {
+                brick.dataset.type = "bomb";
+                brick.classList.add("bomb-brick");
+                brick.innerHTML = '<i class="fa-solid fa-bomb"></i>';
+            } else if (map[row][col] === "S") {
+                brick.dataset.type = "stone";
+                brick.classList.add("stone-brick");
+                brick.innerHTML = '<i class="fa-solid fa-shield"></i>';
+            } else if (map[row][col] === ".") {
+                brick.dataset.type = "empty";
+                brick.style.visibility = "hidden";
+            } else {
+                brick.dataset.type = "normal";
+                brick.classList.add("level4-normal");
+            }
+            brickContainer.appendChild(brick);
+            brickCells.push(brick);
+            if (brick.dataset.type !== "empty") {
+                bricks.push(brick);
+            }
+        }
+    }
 }

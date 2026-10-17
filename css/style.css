@@ -228,3 +228,24 @@ body {
 .grow-info {
     display: none;
 }
+.brick.level4-normal {
+    background-color: #e59b2f;
+}
+
+.brick.bomb-brick {
+    background-color: indianred;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.brick.stone-brick {
+    background-color: gray;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
