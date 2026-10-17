@@ -228,6 +228,14 @@ function checkBrickCollision() {
                 if (brick.dataset.type === "stone") {
                     break;
                 }
+                if (brick.dataset.type === "bomb") {
+                    const row = Number(brick.dataset.row);
+                    const col = Number(brick.dataset.col);
+
+                    destroyBrick(brick);
+                    explodeBomb(row, col);
+                    break;
+                }
             }
             destroyBrick(brick);
             break;
@@ -497,4 +505,21 @@ function destroyBrick(brick) {
     bricks.splice(index, 1);
     score += 10;
     scoreElement.textContent = score;
+}
+function explodeBomb(row, col) {
+    for (let r = row - 1; r <= row + 1; r++) {
+        for (let c = col - 1; c <= col + 1; c++) {
+            if (r < 0 || r >= brickRows || c < 0 || c >= brickColumns) {
+                continue;
+            }
+            if (r === row && c === col) {
+                continue;
+            }
+            const index = r * brickColumns + c;
+            const brick = brickCells[index];
+            if (brick.dataset.type === "normal" || brick.dataset.type === "stone") {
+                destroyBrick(brick);
+            }
+        }
+    }
 }
