@@ -224,15 +224,12 @@ function checkBrickCollision() {
                     });
                 }
             }
-            brick.style.visibility = "hidden";
-            if (currentLevel === 3) {
-                brick.dataset.type = "empty";
-                brick.classList.remove("mother-brick", "child-brick");
-                brick.innerHTML = "";
+            if (currentLevel === 4) {
+                if (brick.dataset.type === "stone") {
+                    break;
+                }
             }
-            bricks.splice(i, 1);
-            score += 10;
-            scoreElement.textContent = score;
+            destroyBrick(brick);
             break;
         }
     }
@@ -326,10 +323,9 @@ function loadLevel(level) {
         growInfo.style.display = "block";
         createLevel3Bricks();
     } else if (level === 4) {
-        levelReady = false;
+        levelReady = true;
+        levelNotice.style.display = "none";
         createLevel4Bricks();
-        levelNotice.textContent = "Level 4 đang xây dựng";
-        levelNotice.style.display = "block";
 
     } else {
         levelReady = false;
@@ -486,4 +482,19 @@ function createLevel4Bricks() {
             }
         }
     }
+}
+function destroyBrick(brick) {
+    const index = bricks.indexOf(brick);
+    if (index === -1) {
+        return;
+    }
+    brick.style.visibility = "hidden";
+    if (currentLevel === 3 || currentLevel === 4) {
+        brick.dataset.type = "empty";
+        brick.classList.remove("mother-brick", "child-brick", "bomb-brick", "stone-brick", "level4-normal");
+        brick.innerHTML = "";
+    }
+    bricks.splice(index, 1);
+    score += 10;
+    scoreElement.textContent = score;
 }
