@@ -249,3 +249,24 @@ body {
     justify-content: center;
     font-size: 16px;
 }
+.bomb-explosion {
+    position: absolute;
+    width: 35px;
+    height: 35px;
+    background-color: rgba(255, 180, 0, 0.8);
+    border: 2px solid #ff6238;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 10;
+    animation: bombFlash 0.35s ease-out forwards;
+}
+@keyframes bombFlash {
+    from {
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 1;
+    }
+    to {
+        transform: translate(-50%, -50%) scale(2.5);
+        opacity: 0;
+    }
+}

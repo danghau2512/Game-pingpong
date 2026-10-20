@@ -507,6 +507,7 @@ function destroyBrick(brick) {
     scoreElement.textContent = score;
 }
 function explodeBomb(row, col) {
+    showExplosion(row, col);
     for (let r = row - 1; r <= row + 1; r++) {
         for (let c = col - 1; c <= col + 1; c++) {
             if (r < 0 || r >= brickRows || c < 0 || c >= brickColumns) {
@@ -526,4 +527,18 @@ function explodeBomb(row, col) {
 
         }
     }
+}
+function showExplosion(row, col) {
+    const index = row * brickColumns + col;
+    const brick = brickCells[index];
+    const brickRect = brick.getBoundingClientRect();
+    const boardRect = gameBoard.getBoundingClientRect();
+    const effect = document.createElement("div");
+    effect.classList.add("bomb-explosion");
+    effect.style.left = brickRect.left - boardRect.left + brickRect.width / 2 + "px";
+    effect.style.top = brickRect.top - boardRect.top + brickRect.height / 2 + "px";
+    gameBoard.appendChild(effect);
+    setTimeout(function() {
+        effect.remove();
+        }, 350);
 }
