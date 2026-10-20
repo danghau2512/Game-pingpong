@@ -459,8 +459,8 @@ function updateGrowTimer() {
 function createLevel4Bricks() {
     const map = [
         "NNNNNNNN",
-        "NNB.BNNN",
-        "NSSB.N.N"
+        "NNBB.NSN",
+        "NSSN.NNB"
     ];
     for (let row = 0; row < map.length; row++) {
         for (let col = 0; col < map[row].length; col++) {
@@ -517,9 +517,13 @@ function explodeBomb(row, col) {
             }
             const index = r * brickColumns + c;
             const brick = brickCells[index];
-            if (brick.dataset.type === "normal" || brick.dataset.type === "stone") {
+            if (brick.dataset.type === "bomb") {
+                destroyBrick(brick);
+                explodeBomb(r, c);
+            } else if (brick.dataset.type === "normal" || brick.dataset.type === "stone") {
                 destroyBrick(brick);
             }
+
         }
     }
 }
