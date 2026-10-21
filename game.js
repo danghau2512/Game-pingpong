@@ -33,6 +33,7 @@ let bricks = [];
 let brickCells = [];
 let currentLevel = 1;
 let fallingRocks = [];
+const rockSpeed = 170;
 let unlockStage = 0;
 let levelReady = true;
 let animationId = null;
@@ -99,10 +100,15 @@ function moveBall(time) {
     checkWallCollision();
     checkPaddleCollision();
     checkBrickCollision();
+    if (currentLevel === 5) {
+        updateFallingRocks(deltaTime);
+    }
     checkWin();
+
     if (!gameStarted) {
         return;
     }
+
     checkBallLost()
     if (!gameStarted) {
         return;
@@ -635,4 +641,12 @@ function createFallingRock(x, y) {
 
     gameBoard.appendChild(rock);
     fallingRocks.push(rock);
+}
+function updateFallingRocks(deltaTime) {
+    for (let i = 0; i < fallingRocks.length; i++) {
+        const rock = fallingRocks[i];
+        let rockY = parseFloat(rock.style.top);
+        rockY += rockSpeed * deltaTime;
+        rock.style.top = rockY + "px";
+    }
 }
