@@ -237,6 +237,13 @@ function checkBrickCollision() {
                     break;
                 }
             }
+            if (currentLevel === 5) {
+                const col = Number(brick.dataset.col);
+                destroyBrick(brick);
+                applyGridGravity(col);
+
+                break;
+            }
             destroyBrick(brick);
             break;
         }
@@ -335,10 +342,9 @@ function loadLevel(level) {
         levelNotice.style.display = "none";
         createLevel4Bricks();
     } else if (level === 5) {
-        levelReady = false;
+        levelReady = true;
+        levelNotice.style.display = "none";
         createLevel5Bricks();
-        levelNotice.textContent = "Level 5 đang xây dựng";
-        levelNotice.style.display = "block";
 
     } else {
         levelReady = false;
@@ -502,9 +508,9 @@ function destroyBrick(brick) {
         return;
     }
     brick.style.visibility = "hidden";
-    if (currentLevel === 3 || currentLevel === 4) {
+    if (currentLevel === 3 || currentLevel === 4 || currentLevel === 5) {
         brick.dataset.type = "empty";
-        brick.classList.remove("mother-brick", "child-brick", "bomb-brick", "stone-brick", "level4-normal");
+        brick.classList.remove("mother-brick", "child-brick", "bomb-brick", "stone-brick", "level4-normal", "cracked-brick","level5-normal");
         brick.innerHTML = "";
     }
     bricks.splice(index, 1);
@@ -571,6 +577,35 @@ function createLevel5Bricks() {
             brickContainer.appendChild(brick);
             brickCells.push(brick);
             bricks.push(brick);
+        }
+    }
+}
+function applyGridGravity(col) {
+    let bottomRow = brickRows - 1;
+    for (let row = brickRows - 1; row >= 0; row--) {
+        const source = brickCells[row * brickColumns + col];
+        if (source.dataset.type === "empty") {
+            continue;
+        }
+        const target = brickCells[bottomRow * brickColumns + col];
+        if (source !== target) {
+            target.dataset.type = source.dataset.type;
+            target.className = source.className;
+            target.innerHTML = source.innerHTML;
+            target.style.visibility = "visible";
+
+            source.dataset.type = "empty";
+            source.className = "brick";
+            source.innerHTML = "";
+            source.style.visibility = "hidden";
+        }
+
+        bottomRow--;
+    }
+    bricks = [];
+    for (let i = 0; i < brickCells.length; i++) {
+        if (brickCells[i].dataset.type !== "empty") {
+            bricks.push(brickCells[i]);
         }
     }
 }
