@@ -108,7 +108,12 @@ function moveBall(time) {
     if (!gameStarted) {
         return;
     }
-
+    if (currentLevel === 5) {
+        checkRockCollision();
+    }
+    if (!gameStarted) {
+        return;
+    }
     checkBallLost()
     if (!gameStarted) {
         return;
@@ -648,5 +653,30 @@ function updateFallingRocks(deltaTime) {
         let rockY = parseFloat(rock.style.top);
         rockY += rockSpeed * deltaTime;
         rock.style.top = rockY + "px";
+    }
+}
+function checkRockCollision() {
+    const paddleRect = paddle.getBoundingClientRect();
+
+    for (let i = 0; i < fallingRocks.length; i++) {
+        const rock = fallingRocks[i];
+        const rockRect = rock.getBoundingClientRect();
+
+        if (rockRect.right >= paddleRect.left && rockRect.left <= paddleRect.right && rockRect.bottom >= paddleRect.top && rockRect.top <= paddleRect.bottom) {
+            lives--;
+            updateLives();
+            gameStarted = false;
+            for (let j = 0; j < fallingRocks.length; j++) {
+                fallingRocks[j].remove();
+            }
+            fallingRocks = [];
+            if (lives <= 0) {
+                finalScore.textContent = score;
+                gameOverMessage.style.display = "block";
+            } else {
+                resetBall();
+            }
+            return;
+        }
     }
 }
