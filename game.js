@@ -334,6 +334,11 @@ function loadLevel(level) {
         levelReady = true;
         levelNotice.style.display = "none";
         createLevel4Bricks();
+    } else if (level === 5) {
+        levelReady = false;
+        createLevel5Bricks();
+        levelNotice.textContent = "Level 5 đang xây dựng";
+        levelNotice.style.display = "block";
 
     } else {
         levelReady = false;
@@ -541,4 +546,31 @@ function showExplosion(row, col) {
     setTimeout(function() {
         effect.remove();
         }, 350);
+}
+// =======LV5=======
+function createLevel5Bricks() {
+    const map = [
+        "NNNCNNNN",
+        "NCNNNNCN",
+        "NNNNNNCN"
+    ];
+    for (let row = 0; row < map.length; row++) {
+        for (let col = 0; col < map[row].length; col++) {
+            const brick = document.createElement("div");
+            brick.classList.add("brick");
+            brick.dataset.row = row;
+            brick.dataset.col = col;
+            if (map[row][col] === "C") {
+                brick.dataset.type = "cracked";
+                brick.classList.add("cracked-brick");
+                brick.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i>';
+            } else {
+                brick.dataset.type = "normal";
+                brick.classList.add("level5-normal");
+            }
+            brickContainer.appendChild(brick);
+            brickCells.push(brick);
+            bricks.push(brick);
+        }
+    }
 }
