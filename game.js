@@ -284,6 +284,11 @@ function checkBallLost() {
     if (ballY + ball.offsetHeight >= gameBoard.clientHeight) {
         lives--;
         updateLives();
+        for (let rock of fallingRocks) {
+            rock.remove();
+        }
+
+        fallingRocks = [];
         if (lives === 0) {
             livesElement.textContent = "0";
         }
@@ -616,6 +621,7 @@ function applyGridGravity(col) {
         }
         const target = brickCells[bottomRow * brickColumns + col];
         if (source !== target) {
+            const distance = target.offsetTop - source.offsetTop;
             target.dataset.type = source.dataset.type;
             target.className = source.className;
             target.innerHTML = source.innerHTML;
@@ -624,7 +630,16 @@ function applyGridGravity(col) {
             source.dataset.type = "empty";
             source.className = "brick";
             source.innerHTML = "";
-            source.style.visibility = "hidden";
+            source.style.visibility = "hidden"; target.animate(
+                [
+                    { transform: `translateY(-${distance}px)` },
+                    { transform: "translateY(0)" }
+                ],
+                {
+                    duration: 250,
+                    easing: "ease-out"
+                }
+            );
         }
 
         bottomRow--;
