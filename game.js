@@ -32,6 +32,7 @@ const brickColumns = 8;
 let bricks = [];
 let brickCells = [];
 let currentLevel = 1;
+let fallingRocks = [];
 let unlockStage = 0;
 let levelReady = true;
 let animationId = null;
@@ -239,6 +240,15 @@ function checkBrickCollision() {
             }
             if (currentLevel === 5) {
                 const col = Number(brick.dataset.col);
+                if (brick.dataset.type === "cracked") {
+                    const brickRect = brick.getBoundingClientRect();
+                    const boardRect = gameBoard.getBoundingClientRect();
+
+                    const x = brickRect.left - boardRect.left + brickRect.width / 2;
+                    const y = brickRect.top - boardRect.top + brickRect.height / 2;
+
+                    createFallingRock(x, y);
+                }
                 destroyBrick(brick);
                 applyGridGravity(col);
 
@@ -295,6 +305,11 @@ function restartGame() {
     loadLevel(currentLevel);
 }
 function loadLevel(level) {
+    for (let rock of fallingRocks) {
+        rock.remove();
+    }
+
+    fallingRocks = [];
     gameStarted = false;
     cancelAnimationFrame(animationId);
     currentLevel = level;
@@ -306,6 +321,7 @@ function loadLevel(level) {
             levelButtons[i].classList.remove("active");
         }
     }
+
     score = 0;
     lives = 3;
     gameWon = false;
@@ -608,4 +624,15 @@ function applyGridGravity(col) {
             bricks.push(brickCells[i]);
         }
     }
+}
+function createFallingRock(x, y) {
+    const rock = document.createElement("div");
+
+    rock.classList.add("falling-rock");
+
+    rock.style.left = x + "px";
+    rock.style.top = y + "px";
+
+    gameBoard.appendChild(rock);
+    fallingRocks.push(rock);
 }
